@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Signup</title>
+    <title>signin</title>
     <%- include('./partials/head') %>
   </head>
 
@@ -9,17 +9,7 @@
     <%- include('./partials/nav') %>
 
     <div class="container mt-5">
-      <form action="/user/signup" method="post">
-        <div class="mb-3">
-          <label for="fullName" class="form-label">Full Name</label>
-          <input
-            type="text"
-            class="fullName"
-            id="fullName"
-            aria-describedby="fullName"
-            name="fullName"
-          />
-        </div>
+      <form action="/user/signin" method="post">
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
           <input
