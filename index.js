@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const UserRoute = require("./routes/user");
+const blogRoute = require("./routes/blog");
 const cookiesparser = require("cookie-parser");
 const { checkForAuthanticationCookies } = require("./middleware/authantication");
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
   });
 });
 app.use("/user", UserRoute);
+app.use("/blog", blogRoute);
 
 // MongoDB connection
 mongoose
