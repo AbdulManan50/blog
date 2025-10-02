@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Blog Details</title>
+    <%- include('./partials/head') %>
+  </head>
+
+  <body>
+    <%- include('./partials/nav') %>
+
+    <div class="container my-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <!-- Blog Title -->
+          <h1 class="card-title mb-4 text-center text-primary">
+            <%= blog.tital %>
+          </h1>
+
+          <!-- Blog Image -->
+          <div class="text-center mb-4">
+            <img 
+              src="<%= blog.coverImageUrl %>" 
+              class="img-fluid rounded" 
+              alt="Blog Cover"
+              style="max-height: 400px; object-fit: cover;"
+            />
+          </div>
+
+          <!-- Blog Content -->
+          <p class="card-text fs-5 text-muted" style="line-height: 1.8;">
+            <%= blog.body %>
+          </p>
+
+          <!-- Back Button -->
+          <div class="mt-4 text-center">
+            <a href="/" class="btn btn-outline-primary">⬅ Back to Blogs</a>
+          </div>
+        </div>
+        <div>
+
+          <img src="<%= blog.createdBy.profileImage%>" width="100px" alt="">
+          <p><%= blog.createdBy.fullName%></p>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/scripts') %>
+  </body>
+</html>

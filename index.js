@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const UserRoute = require("./routes/user");
 const blogRoute = require("./routes/blog");
 const cookiesparser = require("cookie-parser");
+
 const { checkForAuthanticationCookies } = require("./middleware/authantication");
+const Blog = require("./models/blog");
 
 const app = express();
 
@@ -17,6 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookiesparser())
 app.use(checkForAuthanticationCookies("token"))
 
+app.use(express.static(path.resolve('./public')));
+
+
 app.use((req, res, next) => {
   res.locals.user = req.user || null;   // ✅ makes `user` available in all views
   res.locals.error = null;              // default value for error
@@ -24,10 +29,14 @@ app.use((req, res, next) => {
 });
 
 
+
+
 // Routes
-app.get("/", (req, res) => {
+app.get("/",async (req, res) => {
+  const allBlog = await Blog.find({})
   res.render("home",{
-    user:req.user
+    user:req.user,
+    blogs : allBlog
   });
 });
 app.use("/user", UserRoute);
