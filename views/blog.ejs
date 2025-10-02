@@ -5,41 +5,91 @@
     <%- include('./partials/head') %>
   </head>
 
-  <body>
+  <body class="bg-light">
     <%- include('./partials/nav') %>
 
     <div class="container my-5">
-      <div class="card shadow-sm border-0">
-        <div class="card-body">
+      <div class="card  border-[1px] rounded-3 overflow-hidden">
+        <div class="card-body p-4">
           <!-- Blog Title -->
-          <h1 class="card-title mb-4 text-center text-primary">
+          <h1 class="card-title mb-4 text-center text-primary fw-bold">
             <%= blog.tital %>
           </h1>
 
           <!-- Blog Image -->
           <div class="text-center mb-4">
-            <img 
-              src="<%= blog.coverImageUrl %>" 
-              class="img-fluid rounded" 
+            <img
+              src="<%= blog.coverImageUrl %>"
+              class="img-fluid rounded shadow-sm"
               alt="Blog Cover"
-              style="max-height: 400px; object-fit: cover;"
+              style="max-height: 400px; object-fit: cover"
             />
           </div>
 
           <!-- Blog Content -->
-          <p class="card-text fs-5 text-muted" style="line-height: 1.8;">
+          <p class="card-text fs-5 text-muted lh-lg">
             <%= blog.body %>
           </p>
 
           <!-- Back Button -->
           <div class="mt-4 text-center">
-            <a href="/" class="btn btn-outline-primary">⬅ Back to Blogs</a>
+            <a href="/" class="btn btn-outline-primary px-4 py-2">
+              ⬅ Back to Blogs
+            </a>
           </div>
         </div>
-        <div>
 
-          <img src="<%= blog.createdBy.profileImage%>" width="100px" alt="">
-          <p><%= blog.createdBy.fullName%></p>
+        <!-- Author Info -->
+        <div class="border-top p-4 d-flex align-items-center bg-light">
+          <img
+            src="<%= blog.createdBy.profileImage %>"
+            width="70"
+            height="70"
+            class="rounded-circle border me-3"
+            style="object-fit: cover"
+            alt="Author"
+          />
+          <div>
+            <h5 class="mb-0 fw-bold"><%= blog.createdBy.fullName %></h5>
+            <small class="text-muted">Blog Author</small>
+          </div>
+        </div>
+
+        <!-- Commit Section -->
+        <div class="p-4">
+          <h3 class="mb-4 text-primary">💬 Commit</h3>
+          <% if (locals.user) { %>
+          <form action="/blog/commit/<%= blog._id %>" method="post" class="mb-4">
+            <div class="mb-3">
+              <label for="content" class="form-label">Add your commit</label>
+              <input
+                type="text"
+                id="content"
+                name="content"
+                class="form-control"
+                placeholder="Write something..."
+              />
+            </div>
+            <button class="btn btn-info" type="submit">Add Commit</button>
+          </form>
+          <% } %>
+          <div class="mt-4">
+            <% commits.forEach(commit => { %>
+            <div class="d-flex align-items-start mb-3 p-3 border rounded shadow-sm">
+              <img
+                src="<%= commit.createdBy.profileImage %>"
+                width="40"
+                height="40"
+                class="rounded-circle border me-3"
+                alt="User"
+              />
+              <div>
+                <h6 class="fw-bold mb-1"><%= commit.createdBy.fullName %></h6>
+                <p class="mb-0 text-muted"><%= commit.content %></p>
+              </div>
+            </div>
+            <% }) %>
+          </div>
         </div>
       </div>
     </div>

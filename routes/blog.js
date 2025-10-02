@@ -2,6 +2,7 @@ const { Router } = require("express");
 const multer = require("multer");
 const path = require("path");
 const Blog = require("../models/blog");
+const Commit = require("../models/commit");
 
 const router = Router();
 
@@ -36,11 +37,25 @@ router.post("/", upload.single("coverimage"), async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const blog = await Blog.findById(req.params.id).populate("createdBy");
-  console.log("blog",blog)
+  const commits = await Commit.find({ blogId: req.params.id }).populate(
+    "createdBy"
+  );
+  console.log("commit", commits);
+  // console.log("blog", blog);
   return res.render("blog", {
     user: req.user,
     blog,
+    commits,
   });
+});
+
+router.post("/commit/:blogId", async (req, res) => {
+  await Commit.create({
+    content: req.body.content,
+    blogId: req.params.blogId, // ✅ ab param milega
+    createdBy: req.user._id,
+  });
+  return res.redirect(`/blog/${req.params.blogId}`);
 });
 
 module.exports = router;
