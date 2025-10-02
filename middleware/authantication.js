@@ -1,19 +1,21 @@
 const { validToken } = require("../services/authantication");
 
 function checkForAuthanticationCookies(cookiesName){
-    return(req,res,next)=>{
+    return (req, res, next) => {
         const tokenCookiesValue = req.cookies[cookiesName];
-        if(!tokenCookiesValue){
-            return next()
+        if (!tokenCookiesValue) {
+            return next();
         }
 
         try {
-            const userpayload = validToken(tokenCookiesValue)
-            req.user = userpayload 
+            const userpayload = validToken(tokenCookiesValue);
+            req.user = userpayload;
+            return next(); // ✅ Important!
         } catch (error) {
-            return next()
-        }    
+            return next();
+        }
     }
 }
+
 
 module.exports = {checkForAuthanticationCookies}

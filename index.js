@@ -16,6 +16,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookiesparser())
 app.use(checkForAuthanticationCookies("token"))
 
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;   // ✅ makes `user` available in all views
+  res.locals.error = null;              // default value for error
+  next();
+});
+
+
 // Routes
 app.get("/", (req, res) => {
   res.render("home",{

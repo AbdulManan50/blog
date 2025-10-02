@@ -48,7 +48,6 @@ userSchema.pre("save", function (next) {
   next();
 });
 
-// Static method to match password
 userSchema.statics.matchPasswordandGenrateToken = async function (email, password) {
   const user = await this.findOne({ email });
   if (!user) throw new Error("User not found");
@@ -64,8 +63,9 @@ userSchema.statics.matchPasswordandGenrateToken = async function (email, passwor
   delete safeUser.salt;
 
   const token = createTokenForUser(user);
-  return token;
+  return { token, safeUser };
 };
+
 
 const User = model("User", userSchema);
 
