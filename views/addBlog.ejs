@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Add New Blog Page</title>
+    <%- include('./partials/head') %>
+  </head>
+
+  <body>
+    <%- include('./partials/nav') %>
+    <div class="container mt-3">
+      <form action="">
+        <div class="mb-3">
+          <label for="tital" class="form-label">tital</label>
+          <input
+            type="text"
+            id="tital"
+            name="tital"
+            class="form-control"
+            placeholder="Disabled input"
+          />
+        </div>
+        <div class="mb-3">
+          <textarea
+            class="form-control"
+            placeholder="Leave a comment here"
+            id="floatingTextarea"
+          ></textarea>
+        </div>
+      </form>
+    </div>
+    <%- include('./partials/scripts') %>
+  </body>
+</html>

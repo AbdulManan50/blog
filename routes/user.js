@@ -14,9 +14,10 @@ router.get("/signup", (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.matchPasswordandGenrateToken(email, password);
-    console.log("✅ User logged in:", user);
-    return res.cookie("token", token).redirect("/");
+    const { token, safeUser } = await User.matchPasswordandGenrateToken(email, password);
+    console.log("✅ User logged in:", safeUser);
+
+    return res.cookie("token", token, { httpOnly: true }).redirect("/");
   } catch (err) {
     console.error("❌ Signin error:", err.message);
     return res.redirect("/user/signin");
@@ -33,17 +34,15 @@ router.post("/signup", async (req, res) => {
       password,
     });
 
-    return res.redirect("/");
+    return res.redirect("/user/signin");
   } catch (err) {
     console.error("❌ Signup error:", err.message);
     return res.redirect("/user/signup");
-    console.log(User,"signup")
   }
 });
 
-
-router.get("/logout",(req,res)=>{
-  res.clearCookie("token").redirect("/")
-})
+router.get("/logout", (req, res) => {
+  res.clearCookie("token").redirect("/");
+});
 
 module.exports = router;
