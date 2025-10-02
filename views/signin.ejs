@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>signin</title>
-    <%- include('./partials/head') %>
+    <title>Signin</title>
+    <%- include('partials/head') %>
   </head>
 
   <body>
-    <%- include('./partials/nav') %>
+       <%- include('partials/nav') %>
+
 
     <div class="container mt-5">
       <form action="/user/signin" method="post">
+        <!-- Email -->
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
           <input
             type="email"
             name="email"
-            class="email"
+            class="form-control"
             id="email"
-            aria-describedby="email"
+            aria-describedby="emailHelp"
+            required
           />
           <div id="emailHelp" class="form-text">
             We'll never share your email with anyone else.
           </div>
         </div>
+
+        <!-- Password -->
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <input
             type="password"
-            class="password"
+            class="form-control"
             id="password"
             name="password"
+            required
           />
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <button type="submit" class="btn btn-primary">Signin</button>
       </form>
     </div>
-
-    <%- include('./partials/scripts') %>
+    <%- include('partials/scripts') %>
   </body>
 </html>

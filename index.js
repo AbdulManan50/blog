@@ -1,48 +1,37 @@
-// const express = require("express");
-// const path = require("path");
-// const app = express();
-// const UseRoute = require("./routes/user");
-// const { default: mongoose } = require("mongoose");
-
-// app.set("view engine", "ejs");
-// app.set("view ", path.resolve("./views"));
-
-// app.get("/", (req, res) => {
-//   res.render("home");
-// });
-
-// app.use(express.urlencoded({extended:false}))
-
-// app.use("/user", UseRoute)
-
-// mongoose.connect('mongodb://localhost:27017/blog').then(e=>(console.group("mongo db connected")))
-
-// const PORT = 8000;
-
-// app.listen(PORT, () => console.log(`http://localhost:${PORT}/`));
-
-
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
-const UseRoute = require("./routes/user");
+const UserRoute = require("./routes/user");
+const cookiesparser = require("cookie-parser");
+const { checkForAuthanticationCookies } = require("./middleware/authantication");
 
 const app = express();
 
+// View engine setup
 app.set("view engine", "ejs");
-app.set("views", path.resolve("./views"));  // ✅ fixed
+app.set("views", path.resolve("./views"));
 
+// Middleware
 app.use(express.urlencoded({ extended: false }));
+app.use(cookiesparser())
+app.use(checkForAuthanticationCookies("token"))
 
+// Routes
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("home",{
+    user:req.user
+  });
 });
+app.use("/user", UserRoute);
 
-app.use("/user", UseRoute);
+// MongoDB connection
+mongoose
+  .connect("mongodb://localhost:27017/blog")
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => console.error("❌ MongoDB connection failed:", err));
 
-mongoose.connect("mongodb://localhost:27017/blog")
-  .then(() => console.log("MongoDB connected"))  // ✅ fixed
-  .catch(err => console.error("MongoDB connection failed:", err));
-
+// Server
 const PORT = 8000;
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}/`));
+app.listen(PORT, () =>
+  console.log(`🚀 Server running at http://localhost:${PORT}/`)
+);
